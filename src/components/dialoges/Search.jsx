@@ -39,7 +39,12 @@ const Search = () => {
 
   return (
     <Dialog open={isSearch} onClose={handleOnSearchClose}>
-      <Stack direction={'column'} p={'1rem'} width={'25rem'}>
+      <Stack direction={'column'} sx={{
+        padding:{
+          xs:'0.5rem',
+          sm:'1rem'
+        }
+      }} width={'60vw'}>
         <DialogTitle textAlign={'center'}>Search</DialogTitle>
         <TextField
          label={""}
