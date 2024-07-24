@@ -1,4 +1,5 @@
-import { styled } from "@mui/material";
+import { keyframes, Skeleton, styled } from "@mui/material";
+import {Link as Links} from 'react-router-dom'
 
 const VisuallyHiddenComponent = styled("input")({
     border: 0,
@@ -26,5 +27,27 @@ export const ChatInput = styled("input")({
         outline: "none",
     },
 });
+
+export const Link = styled(Links)({
+    textDecoration: 'none',
+    color: 'black',
+    cursor: 'pointer',
+    '&:hover': {
+        color: 'black',
+        backgroundColor: '#f0f0f0'
+    }
+})
+
+const bounceAnimation = keyframes`
+    0%{ transform : scale(1); }
+    50%{ transform : scale(1.5); }
+    100%{ transform : scale(1); }
+`
+
+export const BouncingSkeleton = styled(Skeleton)(() => ({
+    animation:`${bounceAnimation} 1s infinite`
+    
+}))
+
 
 export default VisuallyHiddenComponent;

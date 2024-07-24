@@ -11,8 +11,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <HelmetProvider>
-        <CssBaseline />
-        <App />
+        <CssBaseline >
+          <div style={{
+            width:'100vw',
+            height:'100vh'
+          }} onContextMenu={(e) => e.preventDefault()}>
+            <App />
+          </div>
+        </CssBaseline>
       </HelmetProvider>
     </Provider>
   </React.StrictMode>

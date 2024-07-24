@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import VisuallyHiddenComponent from "../components/styles/VisuallyHiddenComponent";
 import { useFileHandler, useInputValidation, useStrongPassword } from "6pp";
 import { usernameValidator } from "../utils/Validator";
@@ -20,13 +20,14 @@ import { userExists, userNotExist } from "../redux/slices/userSlice";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const [login, setLogin] = React.useState(true);
-
+  const [login, setLogin] = useState(true);
+  const [loading , setIsLoading] = useState(false);
   const name = useInputValidation("");
   const username = useInputValidation("", usernameValidator);
   const bio = useInputValidation("");
   const password = useInputValidation('');
   const avatar = useFileHandler('single');
+  console.log(import.meta.env.VITE_BASE_URL)
 
   const dispatch = useDispatch();
   const handleLoginToggle = () => {
@@ -35,27 +36,31 @@ const Login = () => {
 
   const handleSignUpsubmit =async (e) => {
     e.preventDefault();
+    setIsLoading(true)
     const formData = new FormData();
     formData.append('name',name.value)
     formData.append('username',username.value)
     formData.append('password',password.value)
     formData.append('bio',bio.value)
-    formData.append('avatar' , avatar);
+    formData.append('avatar' , avatar.file);
     try {
       const {data} = await axiosInstance.post('/api/v1/user/create' , formData);
       dispatch(userExists(data.user));
       toast.success(`welcome ${data.user.name}`)
        console.log(data);
-    } catch (error) {
-      dispatch(userNotExist());
-        console.log(error)
-        toast.error(error.message)
+    } catch ({response}) {
+        dispatch(userNotExist());
+        console.log(response?.data?.message)
+        toast.error(response?.data?.message)
     }
-    
+    finally{
+      setIsLoading(false);
+    }
   }
 
   const handleLoginSubmit =async (e) => {
     e.preventDefault();
+    setIsLoading(true)
     const userdata = {
       username:username.value,
       password:password.value
@@ -64,12 +69,11 @@ const Login = () => {
       const {data} = await axiosInstance.post('/api/v1/user/login',userdata ,{'Content-type':'application/json'})
       toast.success(`welcome back ${data.user.name}`)
       dispatch(userExists(data.user))
-    } catch (error) {
-      toast.error(error.message)
+    } catch ({response}) {
+      toast.error(response?.data?.message)
       dispatch(userNotExist())
-        console.log(error)
     }
-   
+    setIsLoading(false);
   }
 
   return (
@@ -130,6 +134,7 @@ const Login = () => {
                 color="primary"
                 fullWidth
                 type="submit"
+                disabled={loading}
               >
                 Login
               </Button>
@@ -137,6 +142,7 @@ const Login = () => {
                 OR
               </Typography>
               <Button
+                disabled={loading}
                 sx={{ marginTop: "1rem" }}
                 variant="text"
                 fullWidth
@@ -230,6 +236,7 @@ const Login = () => {
                 color="primary"
                 fullWidth
                 type="submit"
+                disabled={loading}
               >
                 Sign Up
               </Button>
@@ -241,6 +248,7 @@ const Login = () => {
                 variant="text"
                 fullWidth
                 onClick={handleLoginToggle}
+                disabled={loading}
               >
                 Login instead
               </Button>

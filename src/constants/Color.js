@@ -1,1 +1,5 @@
 export const orange = '#ea7070'
+export const lightBlue = '#2694ab'
+export const darkBlue = '#1e3d59'
+export const matblack = '#1c1c1c'
+export const lightGray = 'rgba(247, 247, 247, 1)'

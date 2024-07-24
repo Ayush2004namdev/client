@@ -1,16 +1,17 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import ProtectedRoutes from "./hooks/ProtectedRoutes";
-import Login from "./pages/Login";
-import Groups from "./pages/Groups";
-import Chat from "./pages/Chat";
+import React, { lazy, Suspense, useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ProtectedRoutes from "./hooks/ProtectedRoutes";
 import axiosInstance from "./lib/axios";
 import { userExists, userNotExist } from "./redux/slices/userSlice";
-import toast, { Toaster } from "react-hot-toast";
+import {LayoutLoader} from './components/layout/Loaders'
+import { SocketProvider } from "./Socket";
 
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
+const Chat = lazy(() => import("./pages/Chat"));
+const Groups = lazy(() => import("./pages/Groups"));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -25,10 +26,13 @@ const App = () => {
 
   return (
     <BrowserRouter>
+    <Suspense fallback={<LayoutLoader/>}>
       <Routes>
-        <Route element={<ProtectedRoutes user={user} />}>
+        <Route element={<SocketProvider>
+          <ProtectedRoutes user={user} />
+        </SocketProvider>}>
           <Route path="/" element={<Home />} />
-          <Route path="chat/:id" element={<Chat />} />
+          <Route path="chat/:chatId" element={<Chat />} />
           <Route path="groups" element={<Groups />} />
         </Route>
         <Route
@@ -38,9 +42,10 @@ const App = () => {
               <Login />
             </ProtectedRoutes>
           }
-        />
+          />
       </Routes>
       <Toaster position="bottom-center"/>
+      </Suspense>
     </BrowserRouter>
   );
 };
