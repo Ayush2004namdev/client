@@ -2,12 +2,10 @@ import { Search as SearchIcon } from '@mui/icons-material';
 import { Dialog, DialogTitle, InputAdornment, List, Stack, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { userSample } from '../../constants/SampleData';
+import { useAsyncMutation } from '../../hooks/asyncMutation';
 import { useLazySearchUsersQuery, useSendFriendRequestMutation } from '../../redux/api/api';
 import { setIsSearch } from '../../redux/slices/misc';
 import UserItem from '../Shared/UserItem';
-import toast from 'react-hot-toast';
-import { useAsyncMutation } from '../../hooks/asyncMutation';
 
 
 const Search = () => {
@@ -44,7 +42,7 @@ const Search = () => {
           xs:'0.5rem',
           sm:'1rem'
         }
-      }} width={'60vw'}>
+      }} width={'70vw'}>
         <DialogTitle textAlign={'center'}>Search</DialogTitle>
         <TextField
          label={""}

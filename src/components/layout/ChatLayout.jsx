@@ -18,7 +18,7 @@ const ChatLayout = ({
 
   return (
     <>
-      <Stack width={w} height={'100vh'} overflow={'auto'} direction={'column'}>
+      <Stack width={w} height={'calc(100vh - 4rem)'} overflow={'auto'} direction={'column'}>
       {chats?.map((data , index) => {
         const {avatar,name,_id,groupChat,members} = data;
         const newMessage = newMessageAlert.find(({chatId}) => chatId === _id);

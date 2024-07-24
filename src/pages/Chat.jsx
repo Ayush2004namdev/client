@@ -1,5 +1,5 @@
 import { useInfiniteScrollTop } from "6pp";
-import { AttachFile, Send } from "@mui/icons-material";
+import { AttachFile, Send as SendIcon } from "@mui/icons-material";
 import { IconButton, Stack, Tooltip } from "@mui/material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { useChatDetailsQuery, useGetMessagesQuery } from "../redux/api/api";
 import { setIsFileMenu } from "../redux/slices/misc";
 import { getSocket } from "../Socket";
 import { MessageLoader } from "../components/layout/Loaders";
+import { orange } from "../constants/Color";
 
 const Chat = () => {
   const { chatId } = useParams();
@@ -116,7 +117,7 @@ const Chat = () => {
 
   return (
     <>
-      <div style={{ height: '100%' }}>
+      <div style={{ height: '100%', overflow:'hidden' }}>
         <Stack
           ref={containerRef}
           height={"90%"}
@@ -156,10 +157,10 @@ const Chat = () => {
               value={message}
               onChange={handleMessageInput}
             />
-            <Tooltip title={"send"}>
+            {/* <Tooltip title={"send"}>
               <IconButton
                 sx={{
-                  borderRadius: "50%",
+                  backgroundColor: "#3f51b5",
                   p: "0.5rem",
                   rotate: "-35deg",
                 }}
@@ -167,7 +168,18 @@ const Chat = () => {
               >
                 <Send />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
+
+              <Tooltip>
+                <IconButton sx={{
+                  marginRight:'2px',
+                  bgcolor: orange,
+                  transform: 'rotate(-35deg)',
+                }}>
+                  <SendIcon/>
+                </IconButton>
+              </Tooltip>
+
           </Stack>
           <FileMenu anchorEl={fileMenuAnchor} chatId={chatId} />
         </form>
