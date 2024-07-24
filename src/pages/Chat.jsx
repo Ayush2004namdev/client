@@ -14,10 +14,11 @@ import { setIsFileMenu } from "../redux/slices/misc";
 import { getSocket } from "../Socket";
 import { MessageLoader } from "../components/layout/Loaders";
 import { orange } from "../constants/Color";
+import { useErrors } from "../hooks/Hook";
 
 const Chat = () => {
   const { chatId } = useParams();
-  const chatIdRef = useRef(chatId); // Ref to store the latest chatId
+  const chatIdRef = useRef(chatId); 
   const containerRef = useRef(null);
   const { user } = useSelector((state) => state.user);
   const [messages, setMessages] = useState([]);
@@ -37,6 +38,11 @@ const Chat = () => {
     page,
   });
 
+  useErrors([{
+    isError,
+    error
+  }])
+
   if (bottomRef.current) {
     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
   }
@@ -48,7 +54,7 @@ const Chat = () => {
   }, [messages]);
 
   const { data: infiniteScrollData, setData: setInfiniteScrollData } =
-    useInfiniteScrollTop(containerRef, data?.pages, page, setPage, data?.message);
+    useInfiniteScrollTop(containerRef,data?.pages, page,setPage, data?.message);
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -175,7 +181,8 @@ const Chat = () => {
                   marginRight:'2px',
                   bgcolor: orange,
                   transform: 'rotate(-35deg)',
-                }}>
+                }}
+                type="submit">
                   <SendIcon/>
                 </IconButton>
               </Tooltip>
