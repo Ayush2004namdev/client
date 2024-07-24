@@ -5,7 +5,7 @@ import io from 'socket.io-client'
  const SocketContext = createContext();
  const getSocket = () => useContext(SocketContext);
  const SocketProvider = ({children}) => {
-    const socket = useMemo(() => io('http://localhost:3000' , {
+    const socket = useMemo(() => io(`${import.meta.env.VITE_BASE_URL}` , {
         withCredentials:true,
     }),[])
 
