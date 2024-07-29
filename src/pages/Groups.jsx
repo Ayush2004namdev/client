@@ -41,7 +41,7 @@ const Groups = () => {
   const navigate = useNavigate();
   const [member, setMember] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
-  const [groupName,setGroupName] = useState("'");
+  const [groupName,setGroupName] = useState("");
   const [groupNameUpdated , setGroupNameUpdated] = useState("");
   const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const [groups , setGroups] = useState([]);
