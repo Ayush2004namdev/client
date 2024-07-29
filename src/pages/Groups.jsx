@@ -112,6 +112,8 @@ const Groups = () => {
 
   const deleteHandler = () => {};
 
+  console.log('hii')
+
   const handleMobileMenuClose = () => dispatch(setIsMobile(false));
   const handleMobileOpen = () => dispatch(setIsMobile(true));
   const IconBtns = (
