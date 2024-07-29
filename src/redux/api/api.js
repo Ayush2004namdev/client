@@ -64,7 +64,7 @@ const api = createApi({
 
     chatDetails: builder.query({
       query: ({ chatId, populate = false }) => {
-        const url = `/chat/${chatId}`;
+        let url = `/chat/${chatId}`;
         if (populate) url += "?populate=true";
         return {
           url,
@@ -98,6 +98,33 @@ const api = createApi({
         credentials:'include',
       }),
       providesTags:["Chats"]
+    }),
+    getMyFriends:builder.query({
+      query:() => ({
+        url:'/user/friends',
+        credentials:'include'
+      }),
+      providesTags:["Users"]
+    }),
+
+    renameGroup : builder.mutation({
+      query:({chatId,name}) => ({
+        url:`/chat/${chatId}`,
+        body:{name},
+        method:'PUT',
+        credentials:'include'
+      }),
+      invalidatesTags:['Chats']
+    }),
+
+    removeFromGroup : builder.mutation({
+      query:(data) => ({
+        url:'/chat/remove',
+        method:'PUT',
+        body:data,
+        credentials:'include'
+      }),
+      invalidatesTags:['Chats']
     })
 
   }),
@@ -106,13 +133,16 @@ const api = createApi({
 export const {
   useMyChatsQuery,
   useLazySearchUsersQuery,
+  useRenameGroupMutation,
   useGetMyGroupsQuery,
   useSendFriendRequestMutation,
+  useRemoveFromGroupMutation,
   useGetNotificationsQuery,
   useChatDetailsQuery,
   useAddFriendMutation,
   useCreateNewGroupMutation,
   useSendAttachmentMutation,
-  useGetMessagesQuery
+  useGetMessagesQuery,
+  useGetMyFriendsQuery
 } = api;
 export default api;

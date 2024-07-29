@@ -1,8 +1,8 @@
-import { Button, Dialog, DialogTitle, Stack, TextField } from '@mui/material';
+import { Button, Dialog, DialogTitle, Skeleton, Stack, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCreateNewGroupMutation, useMyChatsQuery } from '../../redux/api/api';
+import { useCreateNewGroupMutation, useGetMyFriendsQuery, useMyChatsQuery } from '../../redux/api/api';
 import { setIsNewGroup } from '../../redux/slices/misc';
 import UserItem from '../Shared/UserItem';
 import {useErrors} from '../../hooks/Hook'
@@ -13,24 +13,24 @@ const NewGroup = () => {
   const [selectedMembers,setSelectedMembers] = useState([]);
   const [groupName,setGroupName] = useState(''); 
   const [createGroup] = useCreateNewGroupMutation()
-  const {isLoading , error , isError , data} = useMyChatsQuery()
+  const {isLoading , error , isError , data} = useGetMyFriendsQuery('');
   const dispatch = useDispatch();
 
   const {isNewGroup} =  useSelector(state => state.misc)
-
+  console.log(data);
   const createGroupHandler =async () =>{
     if(!groupName)return toast.error('GroupName should not empty');
-    console.log(groupName,selectedMembers);
     try {
       const res = await createGroup({name:groupName , members:selectedMembers})
       
       if(res?.data?.success){
-        toast.success(res?.data?.message || 'Work done... ');
+        toast.success(res?.data?.message || 'Group Created Successfully');
         console.log(res.data)
       }else{
         console.log(res);
         toast.error(res?.error?.data?.message || 'Something went Wrong')
       }
+      dispatch(setIsNewGroup(false));
     } catch (error) {
       toast.error(error?.message || 'Something Went Wrong')
       console.log(error);
@@ -38,7 +38,7 @@ const NewGroup = () => {
    
   } ;
   useEffect(() => {
-    data && setMembers(data?.message);
+    data && setMembers(data?.friends);
   } , [data])
 
   useErrors([{error,isError}]);
@@ -63,7 +63,7 @@ const NewGroup = () => {
         value={groupName}
       />
       <Stack>
-      {members.length > 0 && members.map((user) => (
+      {isLoading ? <Skeleton/> : members.map((user) => (
             <UserItem user={user} key={user._id} handler={selectMembersHandler}  />
           ))}
       </Stack>
