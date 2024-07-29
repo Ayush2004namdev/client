@@ -83,6 +83,9 @@ const AppLayout = () => (WrappedComponent) => {
         <Box width={'100vw'} height={'100vh'} >
 
         <Header />
+        <div style={{
+          paddingTop:'4rem'
+        }}>
 
         {isLoading ? <Skeleton/> : <Drawer open={isMobile} onClose={handleMobile}>
 
@@ -133,6 +136,7 @@ const AppLayout = () => (WrappedComponent) => {
             <Profile />
           </Grid>
         </Grid>
+  </div>
 </Box>
       </>
     );

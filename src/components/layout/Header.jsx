@@ -59,7 +59,8 @@ const Header = () => {
     <div style={{
       position: 'fixed',
       width: '100%',
-      zIndex: 1000
+      zIndex: 1000,
+      backgroundColor: 'orange',
     }}>
 
       <Box sx={{ flexGrow: 1 }} height={"4rem"}>
