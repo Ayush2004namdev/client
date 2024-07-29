@@ -56,15 +56,20 @@ const Header = () => {
   }
 
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }} position={'fixed'} top={0} left={0} height={"4rem"}>
+    <div style={{
+      position: 'fixed',
+      width: '100%',
+      zIndex: 1000
+    }}>
+
+      <Box sx={{ flexGrow: 1 }} height={"4rem"}>
         <AppBar
           position="static"
           sx={{
             height:'100%',
             bgcolor: orange,
           }}
-        >
+          >
           <Toolbar>
             <Typography
               variant="h6"
@@ -72,26 +77,26 @@ const Header = () => {
                 display: { xs: "none", sm: "block" ,cursor: 'pointer'},
               }}
               onClick={() => navigate("/")}
-            >
+              >
               Chat app
             </Typography>
             <Box
               sx={{
                 display: { xs: "block", sm: "none" },
               }}
-            >
+              >
               <IconComp title="Menu" icon={<Menu />} onclick={handleMoblieView} />
             </Box>
             <Box
               sx={{
                 flexGrow: 1,
               }}
-            />
+              />
             <Box
               sx={{
                 display: { xs: "block", sm: "block" },
               }}
-            >
+              >
               <IconComp title="Search" icon={<SearchIcon />} onclick={handleSearch} />
               <IconComp title={"New Group"} icon={<Add />} onclick={openNewGroup} />
               <IconComp title="Manage Group" icon={<Group />} onclick={handleToGroup} />
@@ -110,7 +115,7 @@ const Header = () => {
       {isNotification && <Suspense fallback={<Backdrop open/>}> 
           <Notification />
       </Suspense>}
-    </>
+      </div>
   );
 };
 
